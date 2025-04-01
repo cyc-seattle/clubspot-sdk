@@ -28,6 +28,7 @@
   "dependencies": {
     "commander": "^13.1.0",
     "@commander-js/extra-typings": "^13.1.0",
+    "@cyc-seattle/commodore": "workspace:^",
     "dotenv": "^16.4.7",
     "logform": "^2.7.0",
     "oclif": "^4.17.27",
