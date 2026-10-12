@@ -26,6 +26,10 @@ run = ["pnpm exec tsc -p tsconfig.json", "pnpm exec prettier --check .", "pnpm e
 description = "Run unit tests"
 run = "pnpm exec vitest run"
 
+[tasks.integration]
+description = "Run the integration features against the Clubspot fake (needs Docker)"
+run = "scripts/integration"
+
 [tasks.ci]
 description = "Run all checks and tests"
-depends = ["check", "test"]
+depends = ["check", "test", "integration"]

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Runs the integration features against a fresh Clubspot fake, and tears it down even on failure.
+set -euo pipefail
+
+compose=(docker compose --file "$(dirname "$0")/../fake/compose.yaml")
+
+trap '"${compose[@]}" down --volumes' EXIT
+"${compose[@]}" up --build --wait
+pnpm exec vitest run --config vitest.integration.config.ts "$@"
