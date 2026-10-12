@@ -1,9 +1,9 @@
 import { describeFeature, loadFeature } from "@amiceli/vitest-cucumber";
 import { expect } from "vitest";
-import { Camp, Club, LoggedQuery } from "../src/index.js";
+import { Camp, Club, LoggedQuery } from "../../src/index.js";
 import { fake, signInAsAdmin } from "./support.js";
 
-const feature = await loadFeature("./camps.feature");
+const feature = await loadFeature("features/camps.feature");
 
 describeFeature(feature, ({ Scenario }) => {
   Scenario("Discovery skips archived camps", ({ Given, And, When, Then }) => {

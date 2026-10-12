@@ -1,10 +1,10 @@
 import { describeFeature, loadFeature } from "@amiceli/vitest-cucumber";
 import { expect } from "vitest";
-import { Clubspot } from "../src/index.js";
-import { FakeUser } from "../src/fake/index.js";
+import { Clubspot } from "../../src/index.js";
+import { FakeUser } from "../../src/fake/index.js";
 import { fake, signIn } from "./support.js";
 
-const feature = await loadFeature("./sign-in.feature");
+const feature = await loadFeature("features/sign-in.feature");
 
 describeFeature(feature, ({ Scenario }) => {
   Scenario("A user whose username isn't their email signs in with their email", ({ Given, When, Then }) => {

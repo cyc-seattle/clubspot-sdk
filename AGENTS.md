@@ -11,8 +11,8 @@ Guidance for coding agents working in this repository.
 mise provides the tools in `mise.toml`. Run `mise trust`, then `mise run install`.
 
 - `mise run check` — typecheck, then check formatting and lint
-- `mise run test` — the unit tests in `test/`. No Docker needed.
-- `mise run integration` — the features in `integration/`, against the fake. Needs Docker.
+- `mise run test` — the unit tests in `test/`, apart from `test/features/`. No Docker needed.
+- `mise run integration` — the features in `features/`, against the fake. Needs Docker.
 - `mise run ci` — `check`, `test`, and `integration`, as CI runs them
 
 ## The Clubspot fake
@@ -26,8 +26,8 @@ mise provides the tools in `mise.toml`. Run `mise trust`, then `mise run install
 
 ## Testing
 
-- Unit tests live in `test/**/*.test.ts`. They mock Parse and need no server.
-- Integration features live in `integration/*.feature`, with their steps in `integration/*.test.ts`. Write them with the `write-feature` skill from [`cyc-seattle/agent-skills`](https://github.com/cyc-seattle/agent-skills).
+- Unit tests live in `test/**/*.test.ts`, outside `test/features/`. They mock Parse and need no server.
+- Integration features live in `features/*.feature`, with their steps in `test/features/*.test.ts`. Write them with the `write-feature` skill from [`cyc-seattle/agent-skills`](https://github.com/cyc-seattle/agent-skills).
 - A scenario that needs its own data creates it with the builders, which name it with the run ID. A scenario that only reads uses the seed.
 
 ## Code style

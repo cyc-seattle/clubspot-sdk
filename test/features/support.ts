@@ -1,5 +1,5 @@
-import { Camp, Clubspot, LoggedQuery } from "../src/index.js";
-import { FAKE_PASSWORD, FakeClubspot, SEED_ADMIN_EMAIL } from "../src/fake/index.js";
+import { Camp, Clubspot, LoggedQuery } from "../../src/index.js";
+import { FAKE_PASSWORD, FakeClubspot, SEED_ADMIN_EMAIL } from "../../src/fake/index.js";
 
 const runId = process.env["RUN_ID"];
 if (!runId) {

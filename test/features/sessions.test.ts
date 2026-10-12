@@ -1,9 +1,9 @@
 import { describeFeature, loadFeature } from "@amiceli/vitest-cucumber";
 import { expect } from "vitest";
-import { Camp, CampSession, LoggedQuery } from "../src/index.js";
+import { Camp, CampSession, LoggedQuery } from "../../src/index.js";
 import { findSeededCamp } from "./support.js";
 
-const feature = await loadFeature("./sessions.feature");
+const feature = await loadFeature("features/sessions.feature");
 
 describeFeature(feature, ({ Scenario }) => {
   Scenario("A session with no dates reads as having none", ({ Given, When, Then }) => {

@@ -1,9 +1,9 @@
 import { describeFeature, loadFeature } from "@amiceli/vitest-cucumber";
 import { expect } from "vitest";
-import { Camp, queryCampEntries, Registration } from "../src/index.js";
+import { Camp, queryCampEntries, Registration } from "../../src/index.js";
 import { findSeededCamp } from "./support.js";
 
-const feature = await loadFeature("./paging.feature");
+const feature = await loadFeature("features/paging.feature");
 
 describeFeature(feature, ({ Scenario }) => {
   Scenario("Paging reads every entry of a camp with more than 1000 entries", ({ Given, When, Then }) => {

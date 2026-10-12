@@ -1,9 +1,9 @@
 import { describeFeature, loadFeature } from "@amiceli/vitest-cucumber";
 import { expect } from "vitest";
-import { Camp, CampClass, CampSession, queryCampEntries, Registration } from "../src/index.js";
+import { Camp, CampClass, CampSession, queryCampEntries, Registration } from "../../src/index.js";
 import { fake, signInAsAdmin } from "./support.js";
 
-const feature = await loadFeature("./entries.feature");
+const feature = await loadFeature("features/entries.feature");
 
 describeFeature(feature, ({ Scenario }) => {
   Scenario("An entry arrives with its participant, sessions, classes, and billing", ({ Given, And, When, Then }) => {

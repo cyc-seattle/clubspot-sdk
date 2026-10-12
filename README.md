@@ -81,11 +81,11 @@ const camp = await fake.camp(club, "Summer Optis"); // named "Summer Optis [a1b2
 
 ### Tasks
 
-| Task                   | Needs Docker | Runs                                                                    |
-| ---------------------- | ------------ | ----------------------------------------------------------------------- |
-| `mise run test`        | No           | The unit tests in `test/`                                               |
-| `mise run integration` | Yes          | The features in `integration/`, against a fake that it starts and stops |
-| `mise run ci`          | Yes          | `check`, `test`, and `integration`                                      |
+| Task                   | Needs Docker | Runs                                                                 |
+| ---------------------- | ------------ | -------------------------------------------------------------------- |
+| `mise run test`        | No           | The unit tests in `test/`, apart from `test/features/`               |
+| `mise run integration` | Yes          | The features in `features/`, against a fake that it starts and stops |
+| `mise run ci`          | Yes          | `check`, `test`, and `integration`                                   |
 
 The fake listens on 127.0.0.1 only, on port 1337 by default. Set `CLUBSPOT_FAKE_PORT` to use another. `mise run integration` runs its own fake under its own compose project, so runs in two worktrees don't collide when each uses its own port.
 
