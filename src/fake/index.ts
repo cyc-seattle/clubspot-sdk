@@ -18,7 +18,7 @@ import {
   UserClub,
 } from "../types.js";
 
-export const FAKE_SERVER_URL = "http://localhost:1337/parse";
+export const FAKE_SERVER_URL = "http://127.0.0.1:1337/parse";
 export const FAKE_APP_ID = "myclubspot2017";
 /** Test-only. It guards nothing but the fake's synthetic data. */
 export const FAKE_MASTER_KEY = "fake-master-key-for-tests-only";
@@ -90,6 +90,9 @@ function build<K extends new (attributes: never) => Parse.Object>(
   const attributes = Object.fromEntries(Object.entries(fields).filter(([, value]) => value !== undefined));
   return new Klass(attributes as never) as InstanceType<K>;
 }
+
+const SCOPED_CONFIG = ["APPLICATION_ID", "SERVER_URL", "MASTER_KEY"] as const;
+let turn: Promise<unknown> = Promise.resolve();
 
 export class FakeClubspot {
   public readonly runId: string;
@@ -229,12 +232,28 @@ export class FakeClubspot {
     return this.save(registration);
   }
 
-  // The SDK keeps one global configuration, and `Clubspot.initialize` clears the master key, so
-  // each save sets it again.
-  private async save<T extends Parse.Object>(object: T): Promise<T> {
-    Parse.initialize(this.applicationId);
-    Parse.serverURL = this.serverUrl;
-    Parse.masterKey = this.masterKey;
-    return object.save(null, { useMasterKey: true });
+  // The SDK's configuration is global, so saves take turns, and each puts back what it found. A
+  // consumer's later calls then never reach the fake or carry its master key.
+  private save<T extends Parse.Object>(object: T): Promise<T> {
+    const saved = turn.then(() => this.saveWithMasterKey(object));
+    turn = saved.catch(() => undefined);
+    return saved;
+  }
+
+  private async saveWithMasterKey<T extends Parse.Object>(object: T): Promise<T> {
+    if (!Parse.applicationId) {
+      Parse.initialize(this.applicationId);
+    }
+    const previous = SCOPED_CONFIG.map((key) => [key, Parse.CoreManager.get(key)] as const);
+    try {
+      Parse.CoreManager.set("APPLICATION_ID", this.applicationId);
+      Parse.CoreManager.set("SERVER_URL", this.serverUrl);
+      Parse.CoreManager.set("MASTER_KEY", this.masterKey);
+      return await object.save(null, { useMasterKey: true });
+    } finally {
+      for (const [key, value] of previous) {
+        Parse.CoreManager.set(key, value);
+      }
+    }
   }
 }
