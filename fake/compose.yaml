@@ -8,7 +8,8 @@ services:
       POSTGRES_PASSWORD: parse
       POSTGRES_DB: parse
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "parse", "-d", "parse"]
+      # Over TCP, because the image's temporary init server also answers on the socket.
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "parse", "-d", "parse"]
       interval: 2s
       timeout: 5s
       retries: 30
@@ -18,7 +19,8 @@ services:
     environment:
       PARSE_SERVER_DATABASE_URI: postgres://parse:parse@db:5432/parse
     ports:
-      - "1337:1337"
+      # Localhost only: the master key works from any address that reaches the server.
+      - "127.0.0.1:${CLUBSPOT_FAKE_PORT:-1337}:1337"
     depends_on:
       db:
         condition: service_healthy
