@@ -1,19 +1,33 @@
 import Parse from "parse/node.js";
 import winston from "winston";
 
+export interface ClubspotOptions {
+  /** Defaults to CLUBSPOT_SERVER_URL, then the main Clubspot API. */
+  serverUrl?: string;
+  /** Defaults to CLUBSPOT_APP_ID, then Clubspot's application ID. */
+  applicationId?: string;
+}
+
 export class Clubspot {
+  public readonly serverUrl: string;
+  public readonly applicationId: string;
+
+  constructor(options: ClubspotOptions = {}) {
+    this.serverUrl = options.serverUrl ?? (process.env["CLUBSPOT_SERVER_URL"] || "https://theclubspot.com/parse");
+    this.applicationId = options.applicationId ?? (process.env["CLUBSPOT_APP_ID"] || "myclubspot2017");
+  }
+
   private _user!: Parse.User;
   public get user() {
     return this._user;
   }
 
   /**
-   * Initializes the Parse SDK to the main Clubspot API and logins with the
+   * Initializes the Parse SDK to the Clubspot API and logins with the
    * supplied email address and password.
    */
   public async initialize(email: string, password: string) {
-    const serverUrl = "https://theclubspot.com/parse";
-    const applicationId = "myclubspot2017";
+    const { serverUrl, applicationId } = this;
 
     Parse.CoreManager.set("SERVER_URL", serverUrl);
     Parse.initialize(applicationId);
