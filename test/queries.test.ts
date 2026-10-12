@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, vi } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
 import { Parse } from "../src/parse.js";
 import { Camp, Club } from "../src/types.js";
 import {
@@ -10,34 +10,6 @@ import {
   querySuppressedEmails,
   queryTransactions,
 } from "../src/queries.js";
-
-// types.ts registers each class with a TC39 class decorator, which this test runtime can't
-// execute (Node has no native support, and vitest's esbuild transform doesn't down-level it).
-// Stand in with plain Parse.Object subclasses that have the same className, since query building
-// only depends on that - not on Parse.Object.registerSubclass.
-vi.mock("../src/types.js", async () => {
-  const { default: BaseParse } = await import("parse/node.js");
-
-  function makeClass(objectClass: string) {
-    return class extends BaseParse.Object {
-      static objectClass = objectClass;
-      constructor(attributes?: unknown) {
-        super(objectClass, attributes as Record<string, unknown>);
-      }
-    };
-  }
-
-  return {
-    Camp: makeClass("camps"),
-    Club: makeClass("clubs"),
-    Contract: makeClass("contracts"),
-    Payout: makeClass("payouts"),
-    QboSyncEvent: makeClass("qbo_sync_events"),
-    Registration: makeClass("registrations"),
-    SesEmailSuppression: makeClass("ses_email_suppression"),
-    Transaction: makeClass("transactions"),
-  };
-});
 
 beforeAll(() => {
   Parse.initialize("test-app-id");

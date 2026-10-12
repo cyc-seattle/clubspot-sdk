@@ -1,7 +1,7 @@
-#!/usr/bin/env -S npx tsx
+#!/usr/bin/env node
 
 import { Command, InvalidArgumentError, Option } from "@commander-js/extra-typings";
-import { Clubspot } from "../src/clubspot.js";
+import { Clubspot } from "./clubspot.js";
 import winston from "winston";
 import { LoggedQuery, schemas } from "./parse.js";
 import { Club, UserClub } from "./types.js";

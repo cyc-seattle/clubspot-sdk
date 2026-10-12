@@ -1,39 +1,67 @@
-# clubspot-sdk
+# @cyc-seattle/clubspot-sdk
 
-[Clubspot](https://theclubspot.com/) is a SaaS product for managing Golf and Sailing clubs. It uses [Parse](https://parseplatform.org/)
-application framework. This package is a community-supported, TypeScript SDK for Clubspot, utilizing the Parse
-JavaScript SDK.
+[Clubspot](https://theclubspot.com/) is a SaaS product that manages golf and sailing clubs. It uses the [Parse](https://parseplatform.org/) application framework. This package is a community-supported TypeScript SDK for Clubspot, built on the Parse JavaScript SDK.
 
-It exposes two utilities for interacting with Clubspot: a library of types to interact with the Clubspot backend, and a
-simple program that that exposes that library as a CLI.
+The package has two parts:
 
-## Example Command Line Usage
+- a library of Parse classes for the Clubspot backend
+- a `clubspot` CLI that uses the library
+
+## Configuration
+
+| Variable              | Default                         | Purpose                         |
+| --------------------- | ------------------------------- | ------------------------------- |
+| `CLUBSPOT_SERVER_URL` | `https://theclubspot.com/parse` | The Parse server to connect to. |
+| `CLUBSPOT_APP_ID`     | `myclubspot2017`                | The Parse application ID.       |
+
+The `Clubspot` constructor takes `serverUrl` and `applicationId` options. They override the variables.
+
+## CLI usage
 
 ```sh
-# Install the package globally
-pnpm install -g @cyc-seattle/clubspot-sdk
+pnpm add -g @cyc-seattle/clubspot-sdk
 
 clubspot --help
 
-# Print clubs that you admin
+# Print the clubs that you admin
 CLUBSPOT_PASSWORD=hunter2 clubspot --username you@example.com whoami
 ```
 
-## Example Library Usage
+## Library usage
 
 ```sh
-pnpm install @cyc-seattle/clubspot-sdk
+pnpm add @cyc-seattle/clubspot-sdk
 ```
 
-```typescript
-import { Clubspot, Club } from "@cyc-seattle/clubspot-sdk";
-import { Parse } from "parse/node.js";
+```ts
+import { Clubspot, Parse, UserClub } from "@cyc-seattle/clubspot-sdk";
 
 const clubspot = new Clubspot();
-clubspot.initialize(username, password);
+await clubspot.initialize("you@example.com", process.env["CLUBSPOT_PASSWORD"]!);
 
-const results = await Parse.Query(UserCLub).include("clubObject").equalTo("userObject", clubspot.user).limit(10).find();
+const results = await new Parse.Query(UserClub)
+  .include("clubObject")
+  .equalTo("userObject", clubspot.user)
+  .limit(10)
+  .find();
 
 console.log("Clubs that I admin:");
-console.table(results.map((result) => result.get("clubObject.name")));
+console.table(results.map((result) => result.get("clubObject").get("name")));
 ```
+
+## Release
+
+Every merge to `main` releases from the PR title. The title must be a conventional commit.
+
+| Title                                          | Release |
+| ---------------------------------------------- | ------- |
+| `fix:`                                         | Patch   |
+| `feat:`                                        | Minor   |
+| `!` after the type, or `BREAKING CHANGE`       | Major   |
+| `chore:`, `docs:`, `ci:`, `test:`, `refactor:` | None    |
+
+The release publishes to npm over OIDC, with provenance. Release notes are on the repo's GitHub releases.
+
+## License
+
+[Apache-2.0](https://github.com/cyc-seattle/clubspot-sdk/blob/main/LICENSE)
