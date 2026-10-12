@@ -1,29 +1,42 @@
 {
   "name": "@cyc-seattle/clubspot-sdk",
+  "version": "0.0.0-development",
   "description": "A community-supported TypeScript SDK for theclubspot.com",
-  "version": "0.0.1",
   "author": "CYC Community Sailing Center",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/cyc-seattle/clubspot-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/cyc-seattle/clubspot-sdk/issues"
+  },
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyc-seattle/clubspot-sdk.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.34.6",
+  "prettier": "@cyc-seattle/ts-config/prettier",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist"
   ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "bin": {
     "clubspot": "./src/main.ts"
   },
-  "engines": {
-    "node": ">= 20.8 < 23"
-  },
   "scripts": {
-    "prepare": "pnpm run build",
-    "build": "tsc --build",
-    "clean": "tsc --build --clean",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "devDependencies": {
-    "@types/parse": "^3.0.9"
+    "build": "tsc -p tsconfig.build.json",
+    "prepack": "pnpm run build"
   },
   "dependencies": {
     "@commander-js/extra-typings": "^13.1.0",
@@ -39,5 +52,14 @@
   },
   "peerDependencies": {
     "parse": "^5.3.0"
+  },
+  "devDependencies": {
+    "@cyc-seattle/ts-config": "^0.1.2",
+    "@types/node": "^22.20.5",
+    "@types/parse": "^3.0.9",
+    "eslint": "^9.39.5",
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3",
+    "vitest": "^4.1.11"
   }
 }
