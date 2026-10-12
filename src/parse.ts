@@ -20,20 +20,13 @@ interface Schema<T> {
 export const schemas: Schema<any>[] = [];
 
 /**
- * Registers a subclass of Parse.Object with Parse. Requires that objectClass be a static property of the class.
+ * Registers subclasses of Parse.Object with Parse, under each class's static objectClass.
  */
-export function register<T extends Parse.Object>(clazz: ObjectConstructor<T>, context: ClassDecoratorContext): void {
-  context.addInitializer(() => {
-    const objectClass = (clazz as any)["objectClass"] as string;
-    if (objectClass === undefined) {
-      throw TypeError("objectClass must be defined on Parse.Objects");
-    }
-
-    const className = context.name!;
-
-    schemas.push({ objectClass, className, clazz });
-    Parse.Object.registerSubclass(objectClass, clazz);
-  });
+export function register(...classes: (ObjectConstructor<Parse.Object> & { objectClass: string })[]): void {
+  for (const clazz of classes) {
+    schemas.push({ objectClass: clazz.objectClass, className: clazz.name, clazz });
+    Parse.Object.registerSubclass(clazz.objectClass, clazz);
+  }
 }
 
 /**

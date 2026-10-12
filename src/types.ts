@@ -13,7 +13,6 @@ interface ClubAttributes extends ClubspotAttributes {
   name: string;
 }
 
-@register
 export class Club extends Parse.Object<ClubAttributes> {
   static objectClass = "clubs";
 
@@ -32,7 +31,6 @@ interface UserClubAttributes {
   permissions?: string[];
 }
 
-@register
 export class UserClub extends Parse.Object<UserClubAttributes> {
   static objectClass = "user_club";
 
@@ -45,7 +43,6 @@ export class UserClub extends Parse.Object<UserClubAttributes> {
 // attributes reverse engineered yet - they're registered so `.include()`d data still deserializes
 // into a typed Parse.Object rather than a plain one.
 
-@register
 export class StripeAccount extends Parse.Object {
   static objectClass = "stripeAccounts";
 
@@ -54,7 +51,6 @@ export class StripeAccount extends Parse.Object {
   }
 }
 
-@register
 export class Profile extends Parse.Object {
   static objectClass = "profiles";
 
@@ -63,7 +59,6 @@ export class Profile extends Parse.Object {
   }
 }
 
-@register
 export class EntryFee extends Parse.Object {
   static objectClass = "entryFees";
 
@@ -72,7 +67,6 @@ export class EntryFee extends Parse.Object {
   }
 }
 
-@register
 export class CustomFieldOption extends Parse.Object {
   static objectClass = "customFieldOptions";
 
@@ -81,7 +75,6 @@ export class CustomFieldOption extends Parse.Object {
   }
 }
 
-@register
 export class RegistrationHold extends Parse.Object {
   static objectClass = "registration_holds";
 
@@ -90,7 +83,6 @@ export class RegistrationHold extends Parse.Object {
   }
 }
 
-@register
 export class Charge extends Parse.Object {
   static objectClass = "charges";
 
@@ -99,7 +91,6 @@ export class Charge extends Parse.Object {
   }
 }
 
-@register
 export class PaymentIntent extends Parse.Object {
   static objectClass = "paymentIntents";
 
@@ -121,7 +112,6 @@ interface CustomFieldAttributes extends ArchiveAttributes {
   cloned_from?: CustomField;
 }
 
-@register
 export class CustomField extends Parse.Object<CustomFieldAttributes> {
   static objectClass = "customFields";
 
@@ -151,7 +141,6 @@ interface BillingRegistrationAttributes extends ClubspotAttributes {
   stripeAccount?: StripeAccount;
 }
 
-@register
 export class BillingRegistration extends Parse.Object<BillingRegistrationAttributes> {
   static objectClass = "billing_registration";
 
@@ -181,7 +170,6 @@ interface ChartOfAccountsAttributes extends ArchiveAttributes {
  * The club's chart of accounts, used both to categorize revenue/expenses and as the accounting
  * sync target for QuickBooks Online. See the Reporting -> Accounting section of the dashboard.
  */
-@register
 export class ChartOfAccounts extends Parse.Object<ChartOfAccountsAttributes> {
   static objectClass = "chartOfAccounts";
 
@@ -263,7 +251,6 @@ interface CampAttributes extends ClubspotAttributes {
   account_guest_non_member?: ChartOfAccounts;
 }
 
-@register
 export class Camp extends Parse.Object<CampAttributes> {
   static objectClass = "camps";
 
@@ -287,7 +274,6 @@ interface CampClassAttributes extends ClubspotAttributes {
   subclassesArray?: unknown[];
 }
 
-@register
 export class CampClass extends Parse.Object<CampClassAttributes> {
   static objectClass = "campClasses";
 
@@ -308,7 +294,6 @@ interface CampSessionAttributes extends ClubspotAttributes {
   defaultFullCampSession?: boolean;
 }
 
-@register
 export class CampSession extends Parse.Object<CampSessionAttributes> {
   static objectClass = "campSessions";
 
@@ -323,7 +308,6 @@ interface CartAttributes {
   userObject: Parse.User;
 }
 
-@register
 export class Cart extends Parse.Object<CartAttributes> {
   static objectClass = "carts";
 
@@ -348,7 +332,6 @@ interface CustomerAttributes extends ClubspotAttributes {
   payment_methods?: unknown[];
 }
 
-@register
 export class Customer extends Parse.Object<CustomerAttributes> {
   static objectClass = "customers";
 
@@ -363,7 +346,6 @@ interface EntryCapAttributes extends ArchiveAttributes {
   campSessionObject?: CampSession;
 }
 
-@register
 export class EntryCap extends Parse.Object<EntryCapAttributes> {
   static objectClass = "entryCaps";
 
@@ -434,7 +416,6 @@ interface ParticipantAttributes extends BaseAttributes {
   members_external?: unknown[];
 }
 
-@register
 export class Participant extends Parse.Object<ParticipantAttributes> {
   static objectClass = "participants";
 
@@ -492,7 +473,6 @@ interface RegistrationAttributes extends ClubspotAttributes {
   subclassesArray?: unknown[];
 }
 
-@register
 export class Registration extends Parse.Object<RegistrationAttributes> {
   static objectClass = "registrations";
 
@@ -529,7 +509,6 @@ interface RegistrationCampSessionAttributes extends BaseAttributes, ArchiveAttri
   // held_or_confirmed: timestamp
 }
 
-@register
 export class RegistrationCampSession extends Parse.Object<RegistrationCampSessionAttributes> {
   static objectClass = "registration_campSession";
 
@@ -539,7 +518,6 @@ export class RegistrationCampSession extends Parse.Object<RegistrationCampSessio
 }
 
 // Shifts are used for golf schedules
-@register
 export class Shift extends Parse.Object {
   static objectClass = "shifts";
 
@@ -549,7 +527,6 @@ export class Shift extends Parse.Object {
 }
 
 // Golf courses for the club
-@register
 export class Courses extends Parse.Object {
   static objectClass = "courses";
 
@@ -577,7 +554,6 @@ interface SocialEventAttributes extends ClubspotAttributes {
   calendarOnly?: boolean;
 }
 
-@register
 export class SocialEvent extends Parse.Object<SocialEventAttributes> {
   static objectClass = "events";
 
@@ -597,7 +573,6 @@ interface RegattaAttributes extends ClubspotAttributes {
   complete?: boolean;
 }
 
-@register
 export class Regatta extends Parse.Object<RegattaAttributes> {
   static objectClass = "regattas";
 
@@ -613,7 +588,6 @@ interface EventTagAttributes extends ArchiveAttributes {
   createdBy?: Parse.User;
 }
 
-@register
 export class EventTag extends Parse.Object<EventTagAttributes> {
   static objectClass = "event_tags";
 
@@ -629,7 +603,6 @@ interface EventSubtypeAttributes extends ArchiveAttributes {
   tax_exempt?: boolean;
 }
 
-@register
 export class EventSubtype extends Parse.Object<EventSubtypeAttributes> {
   static objectClass = "event_subtypes";
 
@@ -655,7 +628,6 @@ interface ContactListAttributes extends ArchiveAttributes {
   // contacts --> not yet modeled as its own class
 }
 
-@register
 export class ContactList extends Parse.Object<ContactListAttributes> {
   static objectClass = "contact_lists";
 
@@ -670,7 +642,6 @@ interface MemberTagAttributes extends ArchiveAttributes {
   admin_only?: boolean;
 }
 
-@register
 export class MemberTag extends Parse.Object<MemberTagAttributes> {
   static objectClass = "member_tags";
 
@@ -686,7 +657,6 @@ interface FormAttributes extends ArchiveAttributes {
   // (name, published state, field definitions) not yet reverse engineered.
 }
 
-@register
 export class Form extends Parse.Object<FormAttributes> {
   static objectClass = "forms";
 
@@ -701,7 +671,6 @@ interface EmailTemplateAttributes extends ArchiveAttributes {
   // TODO: subject/body fields not yet reverse engineered.
 }
 
-@register
 export class EmailTemplate extends Parse.Object<EmailTemplateAttributes> {
   static objectClass = "email_templates";
 
@@ -716,7 +685,6 @@ export class EmailTemplate extends Parse.Object<EmailTemplateAttributes> {
  * registered here so it can still be `.include()`d as a pointer target (e.g. from
  * SesEmailSuppression.last_campaign).
  */
-@register
 export class SesCampaign extends Parse.Object {
   static objectClass = "ses_campaigns";
 
@@ -733,7 +701,6 @@ interface SesEmailAttributes extends ArchiveAttributes {
   status?: string; // e.g. "bounce"
 }
 
-@register
 export class SesEmail extends Parse.Object<SesEmailAttributes> {
   static objectClass = "ses_emails";
 
@@ -751,7 +718,6 @@ interface SesEmailEventAttributes extends ArchiveAttributes {
   data?: Record<string, unknown>;
 }
 
-@register
 export class SesEmailEvent extends Parse.Object<SesEmailEventAttributes> {
   static objectClass = "ses_email_events";
 
@@ -778,7 +744,6 @@ interface SesEmailSuppressionAttributes extends ArchiveAttributes {
  * The email bounce/unsubscribe suppression list. Check this before syncing anyone into another
  * mailing system (Google Groups, Listmonk, etc.) so suppressed addresses aren't re-added.
  */
-@register
 export class SesEmailSuppression extends Parse.Object<SesEmailSuppressionAttributes> {
   static objectClass = "ses_email_suppression";
 
@@ -802,7 +767,6 @@ interface WaiverAttributes extends ArchiveAttributes {
   events?: Parse.Object[];
 }
 
-@register
 export class Waiver extends Parse.Object<WaiverAttributes> {
   static objectClass = "waivers";
 
@@ -849,7 +813,6 @@ interface ContractAttributes extends ArchiveAttributes {
  * An individual e-signature request/record (esignatures.com-backed), e.g. a signed waiver.
  * See the E-signatures -> Contracts page of the dashboard.
  */
-@register
 export class Contract extends Parse.Object<ContractAttributes> {
   static objectClass = "contracts";
 
@@ -880,7 +843,6 @@ interface MerchAttributes extends ArchiveAttributes {
 }
 
 /** A sellable product/fee line (merchandise, processing fees, etc.), referenced from LineItem. */
-@register
 export class Merch extends Parse.Object<MerchAttributes> {
   static objectClass = "merch";
 
@@ -942,7 +904,6 @@ interface OrderAttributes extends ClubspotAttributes {
 }
 
 /** A checkout/order (one or more LineItems), the parent of the billing flow. See Reporting -> Orders. */
-@register
 export class Order extends Parse.Object<OrderAttributes> {
   static objectClass = "orders";
 
@@ -971,7 +932,6 @@ interface LineItemAttributes extends ArchiveAttributes {
  * A single revenue/fee line, more granular than Transaction - ties a charge to the specific
  * registration/participant/product it came from. See Reporting -> Line items.
  */
-@register
 export class LineItem extends Parse.Object<LineItemAttributes> {
   static objectClass = "lineItems";
 
@@ -1011,7 +971,6 @@ interface AccountingClassAttributes extends ArchiveAttributes {
 }
 
 /** A QuickBooks Online "Class" mapping, for sub-categorizing transactions beyond the chart of accounts. */
-@register
 export class AccountingClass extends Parse.Object<AccountingClassAttributes> {
   static objectClass = "accounting_classes";
 
@@ -1051,7 +1010,6 @@ interface TransactionAttributes extends ArchiveAttributes {
  * synced to QuickBooks Online (see QboSyncEvent); manually-added expenses show up here too, with
  * `type: "manually_added_expense"`.
  */
-@register
 export class Transaction extends Parse.Object<TransactionAttributes> {
   static objectClass = "transactions";
 
@@ -1078,7 +1036,6 @@ interface QboSyncEventAttributes extends ArchiveAttributes {
  * `number_of_journal_entries` here to verify the sync actually ran and moved data.
  * See Reporting -> Accounting sync.
  */
-@register
 export class QboSyncEvent extends Parse.Object<QboSyncEventAttributes> {
   static objectClass = "qbo_sync_events";
 
@@ -1110,7 +1067,6 @@ interface PayoutAttributes extends ArchiveAttributes {
 }
 
 /** A Stripe payout to the club's bank account. See Reporting -> Payouts. */
-@register
 export class Payout extends Parse.Object<PayoutAttributes> {
   static objectClass = "payouts";
 
@@ -1126,7 +1082,6 @@ interface VendorAttributes extends ArchiveAttributes {
 }
 
 /** A vendor for manually-entered (non-registration) expenses. */
-@register
 export class Vendor extends Parse.Object<VendorAttributes> {
   static objectClass = "vendors";
 
@@ -1144,7 +1099,6 @@ interface InvoiceMembershipAttributes extends ArchiveAttributes {
 }
 
 /** A membership-dues invoice, separate from camp/event registration billing. */
-@register
 export class InvoiceMembership extends Parse.Object<InvoiceMembershipAttributes> {
   static objectClass = "invoices_membership";
 
@@ -1152,3 +1106,52 @@ export class InvoiceMembership extends Parse.Object<InvoiceMembershipAttributes>
     super(InvoiceMembership.objectClass, attributes);
   }
 }
+
+register(
+  Club,
+  UserClub,
+  StripeAccount,
+  Profile,
+  EntryFee,
+  CustomFieldOption,
+  RegistrationHold,
+  Charge,
+  PaymentIntent,
+  CustomField,
+  BillingRegistration,
+  ChartOfAccounts,
+  Camp,
+  CampClass,
+  CampSession,
+  Cart,
+  Customer,
+  EntryCap,
+  Participant,
+  Registration,
+  RegistrationCampSession,
+  Shift,
+  Courses,
+  SocialEvent,
+  Regatta,
+  EventTag,
+  EventSubtype,
+  ContactList,
+  MemberTag,
+  Form,
+  EmailTemplate,
+  SesCampaign,
+  SesEmail,
+  SesEmailEvent,
+  SesEmailSuppression,
+  Waiver,
+  Contract,
+  Merch,
+  Order,
+  LineItem,
+  AccountingClass,
+  Transaction,
+  QboSyncEvent,
+  Payout,
+  Vendor,
+  InvoiceMembership,
+);
