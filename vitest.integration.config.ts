@@ -7,7 +7,7 @@ export default defineConfig({
     testTimeout: 60_000,
     hookTimeout: 60_000,
     env: {
-      CLUBSPOT_SERVER_URL: process.env["CLUBSPOT_SERVER_URL"] || "http://localhost:1337/parse",
+      CLUBSPOT_SERVER_URL: process.env["CLUBSPOT_SERVER_URL"] || "http://127.0.0.1:1337/parse",
       // One ID for the whole run, shared by every test file's workers.
       RUN_ID: process.env["RUN_ID"] || randomUUID().slice(0, 8),
     },

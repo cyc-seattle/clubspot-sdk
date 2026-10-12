@@ -58,7 +58,7 @@ console.table(results.map((result) => result.get("clubObject").get("name")));
 docker compose --file fake/compose.yaml up --build --wait
 
 # Point the SDK or the CLI at it, and sign in as the seed's admin.
-export CLUBSPOT_SERVER_URL=http://localhost:1337/parse
+export CLUBSPOT_SERVER_URL=http://127.0.0.1:1337/parse
 CLUBSPOT_PASSWORD=fake-password clubspot --username dockmaster@example.test whoami
 
 # Stop it and delete its data.
@@ -87,7 +87,7 @@ const camp = await fake.camp(club, "Summer Optis"); // named "Summer Optis [a1b2
 | `mise run integration` | Yes          | The features in `integration/`, against a fake that it starts and stops |
 | `mise run ci`          | Yes          | `check`, `test`, and `integration`                                      |
 
-`mise run integration` uses port 1337 and the compose project `clubspot-fake`, so it stops a fake you started by hand.
+The fake listens on 127.0.0.1 only, on port 1337 by default. Set `CLUBSPOT_FAKE_PORT` to use another. `mise run integration` runs its own fake under its own compose project, so runs in two worktrees don't collide when each uses its own port.
 
 ## Release
 
