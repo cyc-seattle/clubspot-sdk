@@ -5,8 +5,8 @@ const number = { type: "Number" };
 const boolean = { type: "Boolean" };
 const date = { type: "Date" };
 const array = { type: "Array" };
-// Clubspot omits `archived` rather than storing false, but `equalTo("archived", false)` skips a
-// row with no value, so the fake stores the default that real rows behave as.
+// `equalTo("archived", false)` skips a row with no value, so the fake defaults `archived` to false
+// for seeded and built rows to be found.
 const archived = { type: "Boolean", defaultValue: false };
 const pointer = (targetClass) => ({ type: "Pointer", targetClass });
 
