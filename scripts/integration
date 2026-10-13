@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Runs the integration features against a fresh Clubspot fake, and tears it down even on failure.
+set -euo pipefail
+
+export CLUBSPOT_FAKE_PORT="${CLUBSPOT_FAKE_PORT:-1337}"
+compose=(docker compose --file "$(dirname "$0")/../fake/compose.yaml" --project-name "clubspot-fake-$$")
+
+trap '"${compose[@]}" down --volumes' EXIT
+"${compose[@]}" up --build --wait
+CLUBSPOT_SERVER_URL="http://127.0.0.1:$CLUBSPOT_FAKE_PORT/parse" pnpm exec vitest run --config vitest.integration.config.ts "$@"

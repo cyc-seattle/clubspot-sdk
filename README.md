@@ -49,6 +49,46 @@ console.log("Clubs that I admin:");
 console.table(results.map((result) => result.get("clubObject").get("name")));
 ```
 
+## Testing against the Clubspot fake
+
+`fake/` holds a Clubspot fake: Parse Server 9.10.4 on Postgres 16, with the Clubspot classes that consumers query, the `retrieveUsersByEmailOrMobileNumber` cloud function, and a seed of synthetic data. It needs Docker. Any Docker works, colima included.
+
+```sh
+# Start the fake. It's seeded by the time this returns.
+docker compose --file fake/compose.yaml up --build --wait
+
+# Point the SDK or the CLI at it, and sign in as the seed's admin.
+export CLUBSPOT_SERVER_URL=http://127.0.0.1:1337/parse
+CLUBSPOT_PASSWORD=fake-password clubspot --username dockmaster@example.test whoami
+
+# Stop it and delete its data.
+docker compose --file fake/compose.yaml down --volumes
+```
+
+The seed's admin signs in as `dockmaster@example.test`, which isn't their username. Every user's password is `fake-password`. The master key is in `fake/config.js`, and it's for tests only.
+
+### Builders
+
+`@cyc-seattle/clubspot-sdk/fake` exports builders that create a scenario's objects in the fake through the master key. Each name gets the run ID, so runs don't see each other's data.
+
+```ts
+import { FakeClubspot } from "@cyc-seattle/clubspot-sdk/fake";
+
+const fake = new FakeClubspot({ runId: "a1b2c3d4" });
+const club = await fake.club("Puget Youth Sailing");
+const camp = await fake.camp(club, "Summer Optis"); // named "Summer Optis [a1b2c3d4]"
+```
+
+### Tasks
+
+| Task                   | Needs Docker | Runs                                                                 |
+| ---------------------- | ------------ | -------------------------------------------------------------------- |
+| `mise run test`        | No           | The unit tests in `test/`, apart from `test/features/`               |
+| `mise run integration` | Yes          | The features in `features/`, against a fake that it starts and stops |
+| `mise run ci`          | Yes          | `check`, `test`, and `integration`                                   |
+
+The fake listens on 127.0.0.1 only, on port 1337 by default. Set `CLUBSPOT_FAKE_PORT` to use another. `mise run integration` runs its own fake under its own compose project, so runs in two worktrees don't collide when each uses its own port.
+
 ## Release
 
 Every merge to `main` releases from the PR title. The title must be a conventional commit.
