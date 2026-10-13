@@ -2,7 +2,7 @@ name: clubspot-fake
 
 services:
   db:
-    image: postgres:16
+    image: postgres:18
     environment:
       POSTGRES_USER: parse
       POSTGRES_PASSWORD: parse
