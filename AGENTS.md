@@ -19,7 +19,7 @@ mise provides the tools in `mise.toml`. Run `mise trust`, then `mise run install
 
 - `fake/config.js` holds the Parse Server options and the Defined Schema. The schema declares only the classes and fields that consumers query: this SDK's queries and `clubspot-sync`. Add a class or field when a consumer starts reading it.
 - `fake/cloud/main.js` holds the Cloud Code. It implements only the functions consumers call.
-- `fake/seed/data.js` is the fixed seed, with fixed object IDs. Every person in it is synthetic. The container loads it before it reports healthy, so `docker compose --file fake/compose.yaml up --wait` returns a seeded server.
+- `fake/seed/data.js` is the fixed seed, with fixed object IDs. Every person in it is synthetic. The container loads it before `/ready` returns 200 and the container reports healthy, so `docker compose --file fake/compose.yaml up --wait` returns a seeded server.
 - `src/fake/` holds the builders. They create objects through the master key and need only the Parse SDK.
 - Everything in `fake/` runs inside Parse Server, which loads it with `require()`, so it's CommonJS.
 - Only `dist/` is published. The Docker files and the seed stay in the repo.
