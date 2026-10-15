@@ -1,9 +1,9 @@
 #!/bin/sh
-# Seeds once the server answers, so a healthy container is a seeded one.
+# Seeds once the server answers, and only then marks it ready.
 set -eu
 
 rm -f /tmp/seeded
-node ./bin/parse-server ./config.js &
+node ./server.js &
 server=$!
 trap 'kill "$server"' INT TERM
 

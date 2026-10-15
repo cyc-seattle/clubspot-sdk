@@ -16,6 +16,11 @@ services:
 
   server:
     build: .
+    # The restrictions GKE Autopilot puts on the pod, so every integration run proves the image holds under them.
+    user: "1000"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
     environment:
       PARSE_SERVER_DATABASE_URI: postgres://parse:parse@db:5432/parse
     ports:

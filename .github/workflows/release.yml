@@ -7,7 +7,12 @@ on:
 permissions:
   contents: write
   id-token: write
+  packages: write
 
 jobs:
   release:
-    uses: cyc-seattle/.github/.github/workflows/release.yml@v2.0.0
+    uses: cyc-seattle/.github/.github/workflows/release.yml@v2.2.0
+    with:
+      image: ghcr.io/cyc-seattle/clubspot-fake
+      image-context: fake
+      image-file: fake/Dockerfile

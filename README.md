@@ -65,7 +65,23 @@ CLUBSPOT_PASSWORD=fake-password clubspot --username dockmaster@example.test whoa
 docker compose --file fake/compose.yaml down --volumes
 ```
 
-The seed's admin signs in as `dockmaster@example.test`, which isn't their username. Every user's password is `fake-password`. The master key is in `fake/config.js`, and it's for tests only.
+The seed's admin signs in as `dockmaster@example.test`, which isn't their username. Every user's password is `fake-password`. The master key is in `fake/config.js`, and it's for tests only. Compose runs the fake read-only, as uid 1000 with no capabilities, as the image is meant to run on Kubernetes.
+
+### The image
+
+Each release publishes the fake as `ghcr.io/cyc-seattle/clubspot-fake:<version>`, and as `latest`. The version is the npm release's, without the `v`. The image is public.
+
+```sh
+docker run --rm -p 127.0.0.1:1337:1337 \
+  -e PARSE_SERVER_DATABASE_URI=postgres://parse:parse@host.docker.internal:5432/parse \
+  ghcr.io/cyc-seattle/clubspot-fake:latest
+```
+
+- **Env:** `PARSE_SERVER_DATABASE_URI` is required, and must point at Postgres.
+- **Port:** 1337. Parse Server is mounted at `/parse`, and `GET /parse/health` answers as soon as it's up.
+- **Ready:** `GET /ready` returns 503 until the seed has finished, then 200. Probe it rather than `/parse/health`, which doesn't wait for the seed. Seeding takes a few seconds after Parse Server starts.
+- **User:** uid 1000, non-root. The container writes only to `/tmp`, so it runs with a read-only root filesystem, all capabilities dropped, and a writable volume at `/tmp`.
+- **Seed:** app ID `myclubspot2017`, master key `fake-master-key-for-tests-only`, club `seedClub01`, and admin `dockmaster@example.test`. Every user's password is `fake-password`.
 
 ### Builders
 
