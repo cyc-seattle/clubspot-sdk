@@ -107,7 +107,7 @@ The fake listens on 127.0.0.1 only, on port 1337 by default. Set `CLUBSPOT_FAKE_
 
 ## Release
 
-Every merge to `main` releases from the PR title. The title must be a conventional commit.
+Every merge to `main` releases from the PR title, once CI passes. The title must be a conventional commit.
 
 | Title                                          | Release |
 | ---------------------------------------------- | ------- |
