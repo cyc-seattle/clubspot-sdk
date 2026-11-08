@@ -2,6 +2,8 @@
 
 Guidance for coding agents working in this repository.
 
+Follow `cyc:conventions` (the rules shared by every cyc-seattle repo).
+
 ## Project overview
 
 `@cyc-seattle/clubspot-sdk` is a TypeScript SDK and CLI for Clubspot, which runs on Parse. It also ships a Clubspot fake for tests: a Parse Server in `fake/`, and builders exported as `@cyc-seattle/clubspot-sdk/fake`.
@@ -34,7 +36,7 @@ mise provides the tools in `mise.toml`. Run `mise trust`, then `mise run install
 
 - TypeScript with `@tsconfig/strictest`, ESM, and `.js` extensions on import paths
 - ESLint with Prettier
-- Comments explain why, not what. Record the outcome, not the path to it. No personal identifiers.
+- Comments explain why, not what. Record the outcome, not the path to it.
 
 ## Working in this repo
 
