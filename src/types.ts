@@ -1,4 +1,4 @@
-import { register, Parse } from "./parse.js";
+import { ClubspotObject, register, Parse } from "./parse.js";
 
 interface ArchiveAttributes {
   archived?: boolean;
@@ -12,7 +12,7 @@ interface ClubAttributes extends ClubspotAttributes {
   name: string;
 }
 
-export class Club extends Parse.Object<ClubAttributes> {
+export class Club extends ClubspotObject<ClubAttributes> {
   static objectClass = "clubs";
 
   constructor(attributes: ClubAttributes) {
@@ -30,7 +30,7 @@ interface UserClubAttributes {
   permissions?: string[];
 }
 
-export class UserClub extends Parse.Object<UserClubAttributes> {
+export class UserClub extends ClubspotObject<UserClubAttributes> {
   static objectClass = "user_club";
 
   constructor(attributes: UserClubAttributes) {
@@ -42,7 +42,7 @@ export class UserClub extends Parse.Object<UserClubAttributes> {
 // attributes reverse engineered yet - they're registered so `.include()`d data still deserializes
 // into a typed Parse.Object rather than a plain one.
 
-export class StripeAccount extends Parse.Object {
+export class StripeAccount extends ClubspotObject {
   static objectClass = "stripeAccounts";
 
   constructor() {
@@ -50,7 +50,7 @@ export class StripeAccount extends Parse.Object {
   }
 }
 
-export class Profile extends Parse.Object {
+export class Profile extends ClubspotObject {
   static objectClass = "profiles";
 
   constructor() {
@@ -58,7 +58,7 @@ export class Profile extends Parse.Object {
   }
 }
 
-export class EntryFee extends Parse.Object {
+export class EntryFee extends ClubspotObject {
   static objectClass = "entryFees";
 
   constructor() {
@@ -66,7 +66,7 @@ export class EntryFee extends Parse.Object {
   }
 }
 
-export class CustomFieldOption extends Parse.Object {
+export class CustomFieldOption extends ClubspotObject {
   static objectClass = "customFieldOptions";
 
   constructor() {
@@ -74,7 +74,7 @@ export class CustomFieldOption extends Parse.Object {
   }
 }
 
-export class RegistrationHold extends Parse.Object {
+export class RegistrationHold extends ClubspotObject {
   static objectClass = "registration_holds";
 
   constructor() {
@@ -82,7 +82,7 @@ export class RegistrationHold extends Parse.Object {
   }
 }
 
-export class Charge extends Parse.Object {
+export class Charge extends ClubspotObject {
   static objectClass = "charges";
 
   constructor() {
@@ -90,7 +90,7 @@ export class Charge extends Parse.Object {
   }
 }
 
-export class PaymentIntent extends Parse.Object {
+export class PaymentIntent extends ClubspotObject {
   static objectClass = "paymentIntents";
 
   constructor() {
@@ -111,7 +111,7 @@ interface CustomFieldAttributes extends ArchiveAttributes {
   cloned_from?: CustomField;
 }
 
-export class CustomField extends Parse.Object<CustomFieldAttributes> {
+export class CustomField extends ClubspotObject<CustomFieldAttributes> {
   static objectClass = "customFields";
 
   constructor(attributes: CustomFieldAttributes) {
@@ -140,7 +140,7 @@ interface BillingRegistrationAttributes extends ClubspotAttributes {
   stripeAccount?: StripeAccount;
 }
 
-export class BillingRegistration extends Parse.Object<BillingRegistrationAttributes> {
+export class BillingRegistration extends ClubspotObject<BillingRegistrationAttributes> {
   static objectClass = "billing_registration";
 
   constructor(attributes: BillingRegistrationAttributes) {
@@ -169,7 +169,7 @@ interface ChartOfAccountsAttributes extends ArchiveAttributes {
  * The club's chart of accounts, used both to categorize revenue/expenses and as the accounting
  * sync target for QuickBooks Online. See the Reporting -> Accounting section of the dashboard.
  */
-export class ChartOfAccounts extends Parse.Object<ChartOfAccountsAttributes> {
+export class ChartOfAccounts extends ClubspotObject<ChartOfAccountsAttributes> {
   static objectClass = "chartOfAccounts";
 
   constructor(attributes: ChartOfAccountsAttributes) {
@@ -250,7 +250,7 @@ interface CampAttributes extends ClubspotAttributes {
   account_guest_non_member?: ChartOfAccounts;
 }
 
-export class Camp extends Parse.Object<CampAttributes> {
+export class Camp extends ClubspotObject<CampAttributes> {
   static objectClass = "camps";
 
   constructor(attributes: CampAttributes) {
@@ -273,7 +273,7 @@ interface CampClassAttributes extends ClubspotAttributes {
   subclassesArray?: unknown[];
 }
 
-export class CampClass extends Parse.Object<CampClassAttributes> {
+export class CampClass extends ClubspotObject<CampClassAttributes> {
   static objectClass = "campClasses";
 
   constructor(attributes: CampClassAttributes) {
@@ -293,7 +293,7 @@ interface CampSessionAttributes extends ClubspotAttributes {
   defaultFullCampSession?: boolean;
 }
 
-export class CampSession extends Parse.Object<CampSessionAttributes> {
+export class CampSession extends ClubspotObject<CampSessionAttributes> {
   static objectClass = "campSessions";
 
   constructor(attributes: CampSessionAttributes) {
@@ -307,7 +307,7 @@ interface CartAttributes {
   userObject: Parse.User;
 }
 
-export class Cart extends Parse.Object<CartAttributes> {
+export class Cart extends ClubspotObject<CartAttributes> {
   static objectClass = "carts";
 
   constructor(attributes: CartAttributes) {
@@ -331,7 +331,7 @@ interface CustomerAttributes extends ClubspotAttributes {
   payment_methods?: unknown[];
 }
 
-export class Customer extends Parse.Object<CustomerAttributes> {
+export class Customer extends ClubspotObject<CustomerAttributes> {
   static objectClass = "customers";
 
   constructor(attributes: CustomerAttributes) {
@@ -345,7 +345,7 @@ interface EntryCapAttributes extends ArchiveAttributes {
   campSessionObject?: CampSession;
 }
 
-export class EntryCap extends Parse.Object<EntryCapAttributes> {
+export class EntryCap extends ClubspotObject<EntryCapAttributes> {
   static objectClass = "entryCaps";
 
   constructor(attributes: EntryCapAttributes) {
@@ -415,7 +415,7 @@ interface ParticipantAttributes {
   members_external?: unknown[];
 }
 
-export class Participant extends Parse.Object<ParticipantAttributes> {
+export class Participant extends ClubspotObject<ParticipantAttributes> {
   static objectClass = "participants";
 
   constructor(attributes: ParticipantAttributes) {
@@ -472,7 +472,7 @@ interface RegistrationAttributes extends ClubspotAttributes {
   subclassesArray?: unknown[];
 }
 
-export class Registration extends Parse.Object<RegistrationAttributes> {
+export class Registration extends ClubspotObject<RegistrationAttributes> {
   static objectClass = "registrations";
 
   constructor(attributes: RegistrationAttributes) {
@@ -508,7 +508,7 @@ interface RegistrationCampSessionAttributes extends ArchiveAttributes {
   // held_or_confirmed: timestamp
 }
 
-export class RegistrationCampSession extends Parse.Object<RegistrationCampSessionAttributes> {
+export class RegistrationCampSession extends ClubspotObject<RegistrationCampSessionAttributes> {
   static objectClass = "registration_campSession";
 
   constructor(attributes: RegistrationCampSessionAttributes) {
@@ -517,7 +517,7 @@ export class RegistrationCampSession extends Parse.Object<RegistrationCampSessio
 }
 
 // Shifts are used for golf schedules
-export class Shift extends Parse.Object {
+export class Shift extends ClubspotObject {
   static objectClass = "shifts";
 
   constructor() {
@@ -526,7 +526,7 @@ export class Shift extends Parse.Object {
 }
 
 // Golf courses for the club
-export class Courses extends Parse.Object {
+export class Courses extends ClubspotObject {
   static objectClass = "courses";
 
   constructor() {
@@ -553,7 +553,7 @@ interface SocialEventAttributes extends ClubspotAttributes {
   calendarOnly?: boolean;
 }
 
-export class SocialEvent extends Parse.Object<SocialEventAttributes> {
+export class SocialEvent extends ClubspotObject<SocialEventAttributes> {
   static objectClass = "events";
 
   constructor(attributes: SocialEventAttributes) {
@@ -572,7 +572,7 @@ interface RegattaAttributes extends ClubspotAttributes {
   complete?: boolean;
 }
 
-export class Regatta extends Parse.Object<RegattaAttributes> {
+export class Regatta extends ClubspotObject<RegattaAttributes> {
   static objectClass = "regattas";
 
   constructor(attributes: RegattaAttributes) {
@@ -587,7 +587,7 @@ interface EventTagAttributes extends ArchiveAttributes {
   createdBy?: Parse.User;
 }
 
-export class EventTag extends Parse.Object<EventTagAttributes> {
+export class EventTag extends ClubspotObject<EventTagAttributes> {
   static objectClass = "event_tags";
 
   constructor(attributes: EventTagAttributes) {
@@ -602,7 +602,7 @@ interface EventSubtypeAttributes extends ArchiveAttributes {
   tax_exempt?: boolean;
 }
 
-export class EventSubtype extends Parse.Object<EventSubtypeAttributes> {
+export class EventSubtype extends ClubspotObject<EventSubtypeAttributes> {
   static objectClass = "event_subtypes";
 
   constructor(attributes: EventSubtypeAttributes) {
@@ -627,7 +627,7 @@ interface ContactListAttributes extends ArchiveAttributes {
   // contacts --> not yet modeled as its own class
 }
 
-export class ContactList extends Parse.Object<ContactListAttributes> {
+export class ContactList extends ClubspotObject<ContactListAttributes> {
   static objectClass = "contact_lists";
 
   constructor(attributes: ContactListAttributes) {
@@ -641,7 +641,7 @@ interface MemberTagAttributes extends ArchiveAttributes {
   admin_only?: boolean;
 }
 
-export class MemberTag extends Parse.Object<MemberTagAttributes> {
+export class MemberTag extends ClubspotObject<MemberTagAttributes> {
   static objectClass = "member_tags";
 
   constructor(attributes: MemberTagAttributes) {
@@ -656,7 +656,7 @@ interface FormAttributes extends ArchiveAttributes {
   // (name, published state, field definitions) not yet reverse engineered.
 }
 
-export class Form extends Parse.Object<FormAttributes> {
+export class Form extends ClubspotObject<FormAttributes> {
   static objectClass = "forms";
 
   constructor(attributes: FormAttributes) {
@@ -670,7 +670,7 @@ interface EmailTemplateAttributes extends ArchiveAttributes {
   // TODO: subject/body fields not yet reverse engineered.
 }
 
-export class EmailTemplate extends Parse.Object<EmailTemplateAttributes> {
+export class EmailTemplate extends ClubspotObject<EmailTemplateAttributes> {
   static objectClass = "email_templates";
 
   constructor(attributes: EmailTemplateAttributes) {
@@ -684,7 +684,7 @@ export class EmailTemplate extends Parse.Object<EmailTemplateAttributes> {
  * registered here so it can still be `.include()`d as a pointer target (e.g. from
  * SesEmailSuppression.last_campaign).
  */
-export class SesCampaign extends Parse.Object {
+export class SesCampaign extends ClubspotObject {
   static objectClass = "ses_campaigns";
 
   constructor() {
@@ -700,7 +700,7 @@ interface SesEmailAttributes extends ArchiveAttributes {
   status?: string; // e.g. "bounce"
 }
 
-export class SesEmail extends Parse.Object<SesEmailAttributes> {
+export class SesEmail extends ClubspotObject<SesEmailAttributes> {
   static objectClass = "ses_emails";
 
   constructor(attributes: SesEmailAttributes) {
@@ -717,7 +717,7 @@ interface SesEmailEventAttributes extends ArchiveAttributes {
   data?: Record<string, unknown>;
 }
 
-export class SesEmailEvent extends Parse.Object<SesEmailEventAttributes> {
+export class SesEmailEvent extends ClubspotObject<SesEmailEventAttributes> {
   static objectClass = "ses_email_events";
 
   constructor(attributes: SesEmailEventAttributes) {
@@ -743,7 +743,7 @@ interface SesEmailSuppressionAttributes extends ArchiveAttributes {
  * The email bounce/unsubscribe suppression list. Check this before syncing anyone into another
  * mailing system (Google Groups, Listmonk, etc.) so suppressed addresses aren't re-added.
  */
-export class SesEmailSuppression extends Parse.Object<SesEmailSuppressionAttributes> {
+export class SesEmailSuppression extends ClubspotObject<SesEmailSuppressionAttributes> {
   static objectClass = "ses_email_suppression";
 
   constructor(attributes: SesEmailSuppressionAttributes) {
@@ -766,7 +766,7 @@ interface WaiverAttributes extends ArchiveAttributes {
   events?: Parse.Object[];
 }
 
-export class Waiver extends Parse.Object<WaiverAttributes> {
+export class Waiver extends ClubspotObject<WaiverAttributes> {
   static objectClass = "waivers";
 
   constructor(attributes: WaiverAttributes) {
@@ -812,7 +812,7 @@ interface ContractAttributes extends ArchiveAttributes {
  * An individual e-signature request/record (esignatures.com-backed), e.g. a signed waiver.
  * See the E-signatures -> Contracts page of the dashboard.
  */
-export class Contract extends Parse.Object<ContractAttributes> {
+export class Contract extends ClubspotObject<ContractAttributes> {
   static objectClass = "contracts";
 
   constructor(attributes: ContractAttributes) {
@@ -842,7 +842,7 @@ interface MerchAttributes extends ArchiveAttributes {
 }
 
 /** A sellable product/fee line (merchandise, processing fees, etc.), referenced from LineItem. */
-export class Merch extends Parse.Object<MerchAttributes> {
+export class Merch extends ClubspotObject<MerchAttributes> {
   static objectClass = "merch";
 
   constructor(attributes: MerchAttributes) {
@@ -903,7 +903,7 @@ interface OrderAttributes extends ClubspotAttributes {
 }
 
 /** A checkout/order (one or more LineItems), the parent of the billing flow. See Reporting -> Orders. */
-export class Order extends Parse.Object<OrderAttributes> {
+export class Order extends ClubspotObject<OrderAttributes> {
   static objectClass = "orders";
 
   constructor(attributes: OrderAttributes) {
@@ -931,7 +931,7 @@ interface LineItemAttributes extends ArchiveAttributes {
  * A single revenue/fee line, more granular than Transaction - ties a charge to the specific
  * registration/participant/product it came from. See Reporting -> Line items.
  */
-export class LineItem extends Parse.Object<LineItemAttributes> {
+export class LineItem extends ClubspotObject<LineItemAttributes> {
   static objectClass = "lineItems";
 
   constructor(attributes: LineItemAttributes) {
@@ -970,7 +970,7 @@ interface AccountingClassAttributes extends ArchiveAttributes {
 }
 
 /** A QuickBooks Online "Class" mapping, for sub-categorizing transactions beyond the chart of accounts. */
-export class AccountingClass extends Parse.Object<AccountingClassAttributes> {
+export class AccountingClass extends ClubspotObject<AccountingClassAttributes> {
   static objectClass = "accounting_classes";
 
   constructor(attributes: AccountingClassAttributes) {
@@ -1009,7 +1009,7 @@ interface TransactionAttributes extends ArchiveAttributes {
  * synced to QuickBooks Online (see QboSyncEvent); manually-added expenses show up here too, with
  * `type: "manually_added_expense"`.
  */
-export class Transaction extends Parse.Object<TransactionAttributes> {
+export class Transaction extends ClubspotObject<TransactionAttributes> {
   static objectClass = "transactions";
 
   constructor(attributes: TransactionAttributes) {
@@ -1035,7 +1035,7 @@ interface QboSyncEventAttributes extends ArchiveAttributes {
  * `number_of_journal_entries` here to verify the sync actually ran and moved data.
  * See Reporting -> Accounting sync.
  */
-export class QboSyncEvent extends Parse.Object<QboSyncEventAttributes> {
+export class QboSyncEvent extends ClubspotObject<QboSyncEventAttributes> {
   static objectClass = "qbo_sync_events";
 
   constructor(attributes: QboSyncEventAttributes) {
@@ -1066,7 +1066,7 @@ interface PayoutAttributes extends ArchiveAttributes {
 }
 
 /** A Stripe payout to the club's bank account. See Reporting -> Payouts. */
-export class Payout extends Parse.Object<PayoutAttributes> {
+export class Payout extends ClubspotObject<PayoutAttributes> {
   static objectClass = "payouts";
 
   constructor(attributes: PayoutAttributes) {
@@ -1081,7 +1081,7 @@ interface VendorAttributes extends ArchiveAttributes {
 }
 
 /** A vendor for manually-entered (non-registration) expenses. */
-export class Vendor extends Parse.Object<VendorAttributes> {
+export class Vendor extends ClubspotObject<VendorAttributes> {
   static objectClass = "vendors";
 
   constructor(attributes: VendorAttributes) {
@@ -1098,7 +1098,7 @@ interface InvoiceMembershipAttributes extends ArchiveAttributes {
 }
 
 /** A membership-dues invoice, separate from camp/event registration billing. */
-export class InvoiceMembership extends Parse.Object<InvoiceMembershipAttributes> {
+export class InvoiceMembership extends ClubspotObject<InvoiceMembershipAttributes> {
   static objectClass = "invoices_membership";
 
   constructor(attributes: InvoiceMembershipAttributes) {
