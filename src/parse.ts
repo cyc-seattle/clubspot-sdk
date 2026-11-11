@@ -1,10 +1,28 @@
 /**
  * Typescript Wrappers around the Parse Javascript SDK.
- * @see https://parseplatform.org/Parse-SDK-JS/api/5.3.0/
+ * @see https://parseplatform.org/Parse-SDK-JS/api/7.1.2/
  */
-import Parse from "parse/node.js";
+import type * as ParseTypes from "parse";
+// parse ships declarations only for its browser entry. The Node build has the same API, so it takes those types.
+// @ts-expect-error -- parse/node.js has no declaration file
+import ParseNode from "parse/node.js";
 import winston from "winston";
-export { Parse };
+
+// parse is CommonJS, so its default export sits one level further down.
+export const Parse: typeof ParseTypes.default.default = ParseNode;
+
+// Matches the Attributes type parse uses for Parse.Object, which it doesn't export from its entry point.
+type Attributes = Record<string, any>;
+
+/** The instance types of the classes on Parse, so `Parse.User` and the rest also work as types. */
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export declare namespace Parse {
+  type Object<T extends Attributes = Attributes> = ParseTypes.Object<T>;
+  type User<T extends Attributes = Attributes> = ParseTypes.User<T>;
+  type Query<T extends ParseTypes.Object = ParseTypes.Object> = ParseTypes.Query<T>;
+}
+
+type QueryOptions = Parameters<ParseTypes.Query["find"]>[0];
 
 export type ObjectConstructor<T> = { new (options?: any): T };
 
@@ -33,18 +51,18 @@ export function register(...classes: (ObjectConstructor<Parse.Object> & { object
  * A simple wrapper around query that logs to winston before any finalizer method is called.
  */
 export class LoggedQuery<T extends Parse.Object> extends Parse.Query<T> {
-  override find(options?: Parse.Query.FindOptions): Promise<T[]> {
+  override find(options?: QueryOptions): Promise<T[]> {
     winston.debug("Executing Query:find", {
-      objectClass: this.objectClass,
+      className: this.className,
       query: this.toJSON(),
       options,
     });
     return super.find(options);
   }
 
-  override get(objectId: string, options?: Parse.Query.GetOptions): Promise<T> {
+  override get(objectId: string, options?: QueryOptions): Promise<T> {
     winston.debug("Executing Query:get", {
-      objectClass: this.objectClass,
+      className: this.className,
       objectId,
       options,
     });

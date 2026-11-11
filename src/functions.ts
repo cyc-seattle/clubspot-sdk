@@ -1,4 +1,4 @@
-import Parse from "parse/node.js";
+import { Parse } from "./parse.js";
 
 interface RetrieveGolfAvailabilityRequest {
   clubId: string;
