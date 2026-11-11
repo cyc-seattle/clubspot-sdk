@@ -242,7 +242,7 @@ export class FakeClubspot {
 
   private async saveWithMasterKey<T extends Parse.Object>(object: T): Promise<T> {
     if (!Parse.applicationId) {
-      Parse.initialize(this.applicationId);
+      Parse.initialize(this.applicationId, "");
     }
     const previous = SCOPED_CONFIG.map((key) => [key, Parse.CoreManager.get(key)] as const);
     try {

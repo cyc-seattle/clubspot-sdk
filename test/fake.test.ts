@@ -8,7 +8,7 @@ afterEach(() => {
 
 describe("FakeClubspot", () => {
   it("saves through the fake's master key, then puts back the consumer's configuration", async () => {
-    Parse.initialize("consumer-app");
+    Parse.initialize("consumer-app", "");
     Parse.serverURL = "https://example.com/parse";
     let duringSave: unknown[] = [];
     vi.spyOn(Parse.Object.prototype, "save").mockImplementation(async function (this: Parse.Object) {
@@ -28,7 +28,7 @@ describe("FakeClubspot", () => {
   });
 
   it("puts back the consumer's configuration when a save fails", async () => {
-    Parse.initialize("consumer-app");
+    Parse.initialize("consumer-app", "");
     vi.spyOn(Parse.Object.prototype, "save").mockRejectedValue(new Error("refused"));
 
     await expect(new FakeClubspot({ runId: "run1" }).club("Puget Youth Sailing")).rejects.toThrow("refused");

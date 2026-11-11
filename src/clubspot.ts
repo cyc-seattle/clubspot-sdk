@@ -1,4 +1,4 @@
-import Parse from "parse/node.js";
+import { Parse } from "./parse.js";
 import winston from "winston";
 
 export interface ClubspotOptions {
@@ -30,7 +30,8 @@ export class Clubspot {
     const { serverUrl, applicationId } = this;
 
     Parse.CoreManager.set("SERVER_URL", serverUrl);
-    Parse.initialize(applicationId);
+    // Clubspot takes no JavaScript key. Parse only sends a non-empty one.
+    Parse.initialize(applicationId, "");
     winston.debug("Parse initialized", { serverUrl, applicationId });
 
     const users = await this.retrieveUsersByEmail(email);

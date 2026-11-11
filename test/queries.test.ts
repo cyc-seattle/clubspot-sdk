@@ -12,7 +12,7 @@ import {
 } from "../src/queries.js";
 
 beforeAll(() => {
-  Parse.initialize("test-app-id");
+  Parse.initialize("test-app-id", "");
 });
 
 function makeCamp(id: string): Camp {
@@ -32,9 +32,9 @@ describe("queryCampEntries", () => {
     const camp = makeCamp("camp-1");
     const where = queryCampEntries(camp).toJSON().where;
 
-    expect(where.campObject).toEqual({ __type: "Pointer", className: "camps", objectId: "camp-1" });
-    expect(where.confirmed_at).toEqual({ $exists: true });
-    expect(where.archived).toBeUndefined();
+    expect(where["campObject"]).toEqual({ __type: "Pointer", className: "camps", objectId: "camp-1" });
+    expect(where["confirmed_at"]).toEqual({ $exists: true });
+    expect(where["archived"]).toBeUndefined();
   });
 });
 
@@ -43,9 +43,9 @@ describe("queryRegistrations", () => {
     const club = makeClub("club-1");
     const json = queryRegistrations(club).toJSON();
 
-    expect(json.where.clubObject).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
-    expect(json.where.archived).toBe(false);
-    expect(json.where.status).toEqual({ $in: ["confirmed", "applied", "invited"] });
+    expect(json.where["clubObject"]).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
+    expect(json.where["archived"]).toBe(false);
+    expect(json.where["status"]).toEqual({ $in: ["confirmed", "applied", "invited"] });
     expect(json.order).toBe("-confirmed_at");
   });
 });
@@ -57,7 +57,7 @@ describe("queryTransactions", () => {
     const end = new Date("2026-01-31T23:59:59.999Z");
     const json = queryTransactions(club, start, end).toJSON();
 
-    expect(json.where.event_timestamp).toEqual({
+    expect(json.where["event_timestamp"]).toEqual({
       $gte: { __type: "Date", iso: start.toISOString() },
       $lte: { __type: "Date", iso: end.toISOString() },
     });
@@ -70,8 +70,8 @@ describe("queryContracts", () => {
     const club = makeClub("club-1");
     const json = queryContracts(club).toJSON();
 
-    expect(json.where.clubObject).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
-    expect(json.where.archived).toEqual({ $ne: true });
+    expect(json.where["clubObject"]).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
+    expect(json.where["archived"]).toEqual({ $ne: true });
     expect(json.order).toBe("-createdAt");
   });
 });
@@ -81,8 +81,8 @@ describe("querySuppressedEmails", () => {
     const club = makeClub("club-1");
     const json = querySuppressedEmails(club).toJSON();
 
-    expect(json.where.clubObject).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
-    expect(json.where.archived).toEqual({ $ne: true });
+    expect(json.where["clubObject"]).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
+    expect(json.where["archived"]).toEqual({ $ne: true });
     expect(json.order).toBe("-createdAt");
   });
 });
@@ -92,9 +92,9 @@ describe("queryQboSyncEvents", () => {
     const club = makeClub("club-1");
     const json = queryQboSyncEvents(club).toJSON();
 
-    expect(json.where.clubObject).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
-    expect(json.where.archived).toEqual({ $ne: true });
-    expect(json.where.hidden).toEqual({ $ne: true });
+    expect(json.where["clubObject"]).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
+    expect(json.where["archived"]).toEqual({ $ne: true });
+    expect(json.where["hidden"]).toEqual({ $ne: true });
     expect(json.order).toBe("-succeeded_at");
   });
 });
@@ -104,8 +104,8 @@ describe("queryPayouts", () => {
     const club = makeClub("club-1");
     const json = queryPayouts(club).toJSON();
 
-    expect(json.where.clubObject).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
-    expect(json.where.archived).toEqual({ $ne: true });
+    expect(json.where["clubObject"]).toEqual({ __type: "Pointer", className: "clubs", objectId: "club-1" });
+    expect(json.where["archived"]).toEqual({ $ne: true });
     expect(json.order).toBe("-arrivalDate");
   });
 });

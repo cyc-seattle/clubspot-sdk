@@ -1,11 +1,10 @@
-import { BaseAttributes } from "parse";
 import { register, Parse } from "./parse.js";
 
 interface ArchiveAttributes {
   archived?: boolean;
 }
 
-interface ClubspotAttributes extends BaseAttributes, ArchiveAttributes {
+interface ClubspotAttributes extends ArchiveAttributes {
   clubObject: Club;
 }
 
@@ -360,7 +359,7 @@ interface CustomFieldResponse {
   optionObjectID?: string; // present for "select" and "radio" answers
 }
 
-interface ParticipantAttributes extends BaseAttributes {
+interface ParticipantAttributes {
   registrationObject?: Registration;
   firstName?: string;
   lastName?: string;
@@ -488,7 +487,7 @@ interface WaitlistUpdate {
   waitlist_number: number;
 }
 
-interface RegistrationCampSessionAttributes extends BaseAttributes, ArchiveAttributes {
+interface RegistrationCampSessionAttributes extends ArchiveAttributes {
   campObject: Camp;
   campSessionObject: CampSession;
   campClassObject: CampClass;
