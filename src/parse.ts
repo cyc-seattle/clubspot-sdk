@@ -24,6 +24,13 @@ export declare namespace Parse {
 
 type QueryOptions = Parameters<ParseTypes.Query["find"]>[0];
 
+/** The base of the SDK's Clubspot classes. */
+export class ClubspotObject<T extends Attributes = Attributes> extends Parse.Object<T> {
+  // parse makes id optional, since an unsaved object has none. Consumers read these objects from Clubspot,
+  // where every object has one. `declare` changes only the type, so the field isn't redefined at run time.
+  declare id: string;
+}
+
 export type ObjectConstructor<T> = { new (options?: any): T };
 
 interface Schema<T> {
