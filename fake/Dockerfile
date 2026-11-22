@@ -1,4 +1,4 @@
-FROM parseplatform/parse-server:9.10.7
+FROM parseplatform/parse-server:9.11.0
 
 COPY config.js server.js entrypoint.sh ./
 COPY cloud/ ./cloud/
